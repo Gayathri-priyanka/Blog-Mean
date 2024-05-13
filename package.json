@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "nodemon": "^3.1.0",
     "react-router-dom": "^6.23.1"
-  }
+  },
+  "name": "mern-blog",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "devDependencies": {
+    "express": "^4.19.2"
+  },
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
