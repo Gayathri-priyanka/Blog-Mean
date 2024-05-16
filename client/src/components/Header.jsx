@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <Navbar className='border-b-2 flex flex-wrap'>
       <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-        <span className='px-2 py-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-teal-400 rounded-lg text-white'>Blogger</span>
+        <span className='px-2 py-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-teal-400 rounded-lg text-white'>BlogHive</span>
       </Link>
       <form>
         <TextInput
