@@ -8,6 +8,7 @@ export default function DashProfile() {
     const {currentUser}= useSelector(state => state.user);
     const [imageFile, setImageFile]= useState(null);
     const [imageFileUrl, setImageFileUrl]=useState(null);
+    const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
     const filePickerRef = useRef();
     const handleProfileImageChange= (e) =>{
         const file=e.target.files[0];
@@ -26,7 +27,18 @@ export default function DashProfile() {
         const storage = getStorage(app);
         const fileName= new Date().getTime() + imageFile.name;
         const storageRef= ref(storage, fileName);
-        const uploadTask= uploadBytesResumable(storageRef, imageFile)
+        const uploadTask= uploadBytesResumable(storageRef, imageFile);
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress= 
+                (snapshot.bytesTransferred/snapshot.totalBytes) *100;
+
+            setImageFileUploadProgress(progress.toFixed(0));
+            
+
+            }
+        )
     }
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
