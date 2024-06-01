@@ -3,17 +3,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
-
-const app=express();
-app.use(express.json());
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow the specified methods
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow the specified headers
-    next();
-});
 
 mongoose.connect(process.env.MONGO).then(() => {
     console.log("MongoDB is connected");
@@ -21,6 +13,25 @@ mongoose.connect(process.env.MONGO).then(() => {
 .catch((err) => {
     console.log(err);
 });
+
+
+const app=express();
+
+app.use(express.json());
+
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow the specified methods
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow the specified headers
+    next();
+});
+
+
+
+
+app.use(cookieParser());
+
 
 app.listen(3000, () => {
     console.log('Server is running on 3000! ');
