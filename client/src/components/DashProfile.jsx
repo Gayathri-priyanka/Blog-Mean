@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, TextInput } from 'flowbite-react'
+import { Alert, Button, Modal, TextInput} from 'flowbite-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import  { getStorage, ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
@@ -8,6 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { updateStart, updateSuccess, updateFailure , deleteUserStart, deleteUserSuccess, deleteUserFailure, signoutSuccess} from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux'; 
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 
 export default function DashProfile() {
@@ -183,7 +184,7 @@ export default function DashProfile() {
         </Button>
         {
             currentUser.isAdmin && (
-                <Link to= {'create-post'}>
+                <Link to= {'/create-post'}>
                 <Button type='button' gradientDuoTone='purpleToPink' className='w-full'>
                     Create a Post
                 </Button>
