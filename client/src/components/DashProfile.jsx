@@ -180,6 +180,16 @@ export default function DashProfile() {
         <Button type='submit' gradientDuoTone='purpleToBlue' outline>
             Update
         </Button>
+        {
+            currentUser.isAdmin && (
+                <Link to= {'create-post'}>
+                <Button type='button' gradientDuoTone='purpleToPink' className='w-full'>
+                    Create a Post
+                </Button>
+                </Link>
+
+            )
+        }
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete Account</span>
