@@ -6,9 +6,9 @@ import jwt from 'jsonwebtoken';
 export const signup = async (req, res, next) => {
     console.log("Request body:", req.body);
     // const { username, email, password } = (req.body.Username,req.body.Email,req.body.Password);
-    const username= req.body.Username;
-    const email= req.body.Email;
-    const password= req.body.Password;
+    const username= req.body.username;
+    const email= req.body.email;
+    const password= req.body.password;
 
     if (!username || !email || !password || username === '' || email === '' || password === '') {
         return next(errorHandler(400, 'All fields are required'));
