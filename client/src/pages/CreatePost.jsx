@@ -57,7 +57,7 @@ export default function CreatePost() {
 
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
               <TextInput type='text' placeholder='Title' required id='title' className='flex-1' onChange={(e)=> setFormData({...formData, title: e.target.value})}/>
-              <Select>
+              <Select onChange={(e)=> setFormData({...formData, category: e.target.value})}>
                 <option value="uncategorized">Select a Category</option>
                 <option value="uncategorized">JavaScript</option>
                 <option value="uncategorized">React.js</option>
@@ -89,7 +89,9 @@ export default function CreatePost() {
               <img src={formData.image}
               alt='upload' />
             )}
-            <ReactQuill theme="snow" placeholder='Write Something...' className='h-72 mb-12' required/>
+            <ReactQuill theme="snow" placeholder='Write Something...' className='h-72 mb-12' required onChange={(value)=>{setFormData({...formData, content:value});
+
+            }}/>
             <Button type='submit' gradientDuoTone='purpleToBlue'>Publish</Button>
         </form>
     </div>
