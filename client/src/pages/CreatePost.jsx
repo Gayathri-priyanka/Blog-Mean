@@ -119,7 +119,7 @@ export default function CreatePost() {
               <img src={formData.image}
               alt='upload' />
             )}
-            <ReactQuill theme="snow" placeholder='Write Something...' className='h-72 mb-12' required onChange={(value)=>{setFormData({...formData, content:value});
+            <ReactQuill theme="snow" placeholder='Write Something...' className='h-72 mb-12' required onChange={(value)=>{setFormData({...formData, content:value})
 
             }}/>
             <Button type='submit' gradientDuoTone='purpleToBlue'>Publish</Button>

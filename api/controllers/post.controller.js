@@ -11,7 +11,8 @@ export const create= async (req, res, next) => {
 }
  const slug= req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '-');
  const newPost= new Post({
-    ...req.body, slug, userId: req.user.id
+    ...req.body, slug, userId: req.user.id,
+    createdAt: new Date()
  });
 
  try {
@@ -23,45 +24,49 @@ export const create= async (req, res, next) => {
 
 };
 
-export const getPosts = async (req, res, next) => {
+export const getposts = async (req, res, next) => {
    try {
-     const query = {};
      const startIndex = parseInt(req.query.startIndex) || 0;
      const limit = parseInt(req.query.limit) || 9;
      const sortDirection = req.query.order === 'asc' ? 1 : -1;
- 
-     if (req.query.userId) query.userId = req.query.userId;
-     if (req.query.category) query.category = req.query.category;
-     if (req.query.slug) query.slug = req.query.slug;
-     if (req.query.postId) query._id = req.query.postId;
-     if (req.query.searchTerm) {
-       query.$or = [
-         { title: { $regex: req.query.searchTerm, $options: 'i' } },
-         { content: { $regex: req.query.searchTerm, $options: 'i' } }
-       ];
-     }
- 
-     const posts = await Post.find(query)
+     const posts = await Post.find({
+       ...(req.query.userId && { userId: req.query.userId }),
+       ...(req.query.category && { category: req.query.category }),
+       ...(req.query.slug && { slug: req.query.slug }),
+       ...(req.query.postId && { _id: req.query.postId }),
+       ...(req.query.searchTerm && {
+         $or: [
+           { title: { $regex: req.query.searchTerm, $options: 'i' } },
+           { content: { $regex: req.query.searchTerm, $options: 'i' } },
+         ],
+       }),
+     })
        .sort({ updatedAt: sortDirection })
        .skip(startIndex)
        .limit(limit);
  
      const totalPosts = await Post.countDocuments();
-     const now = new Date();
-     const oneMonthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-
-     
  
-     const lastMonthsPosts = await Post.countDocuments({
+     const now = new Date();
+ 
+     const oneMonthAgo = new Date(now);
+     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+ 
+     const lastMonthPosts = await Post.countDocuments({
        createdAt: { $gte: oneMonthAgo },
      });
+
+     console.log(`Current date: ${now}`);
+     console.log(`One month ago: ${oneMonthAgo}`);
+     console.log(`Posts created in the last month: ${lastMonthPosts}`);
  
      res.status(200).json({
        posts,
        totalPosts,
-       lastMonthsPosts,
+       lastMonthPosts,
      });
    } catch (error) {
      next(error);
    }
  };
+ 

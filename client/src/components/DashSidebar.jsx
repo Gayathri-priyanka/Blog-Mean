@@ -56,7 +56,7 @@ export default function DashSidebar() {
                 Posts
               </Sidebar.Item>
               </Link>
-            )};
+            )}
             
 
             <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignout}>
