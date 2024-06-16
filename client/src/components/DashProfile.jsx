@@ -81,7 +81,7 @@ export default function DashProfile() {
         setUpdateUserError(null);
         setUpdateUserSuccess(null);
         if(Object.keys(formData).length===0){
-            setUpdateUserError('No Chnages Made')
+            setUpdateUserError('No Chnages are Made')
             return;
 
         }
@@ -135,7 +135,7 @@ export default function DashProfile() {
             const res= await fetch('/api/user/signout', {
                 method: 'POST',
             });
-            const data= await res.json;
+            const data= res.json;
             if(!res.ok){
                 console.log(data.message);
             }

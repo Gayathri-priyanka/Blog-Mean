@@ -17,7 +17,7 @@ export const updateUser =async (req, res, next) => {
         req.body.password=bcryptjs.hashSync(req.body.password, 10);
     }
     if(req.body.username){
-        if(req.body.username.length <8 || req.body.username.length>16){
+        if(req.body.username.length <8 || req.body.username.length>20){
             return next(errorHandler(400, 'Username must be between 8 and 16 characters'));
         }
         if(req.body.username.includes(' ')){
@@ -45,11 +45,7 @@ export const updateUser =async (req, res, next) => {
         } catch (error) {
             next(error);
         }
-    
-    
-
 };
-
 export const deleteUser = async (req,res, next) => {
     if(req.user.id!== req.params.userId){
         return next(errorHandler(403, 'You are not allowed to delete this user'));
