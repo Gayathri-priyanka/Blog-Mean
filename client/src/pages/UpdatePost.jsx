@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {Alert, Button, FileInput, Select, TextInput} from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
@@ -6,16 +6,41 @@ import {app} from '../firebase';
 import 'react-quill/dist/quill.snow.css';
 import {CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-export default function CreatePost() {
+export default function UpdatePost() {
   const [file, setFile]= useState(null);
   const [imageUploadProgress, setImageUploadProgress]= useState(null);
   const [imageUploadError, setImageUploadError]= useState(null);
   const [formData, setFormData]= useState({});
   const [publishError, setPublishError]= useState(null);
+  const {postId} = useParams();
+
   const navigate= useNavigate();
+
+  useEffect(()=>{
+    try {
+        const fetchPost= async()=>{
+        const res= await fetch(`/api/post/getposts?postId=${postId}`);
+        const data= await res.json();
+        if(!res.ok){
+            console.log(data.message);
+            setPublishError(data.message);
+            return;
+        };
+        if(res.ok){
+            setPublishError(null);
+            setFormData(data.posts[0]);
+        }
+        };
+        fetchPost();
+    } catch (error) {
+        console.log(error.message);
+    }
+
+  },[postId])
+
   const handleUploadImage= useCallback(async ()=> {
     try {
       if(!file){
@@ -86,8 +111,8 @@ export default function CreatePost() {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
-              <TextInput type='text' placeholder='Title' required id='title' className='flex-1' onChange={(e)=> setFormData({...formData, title: e.target.value})}/>
-              <Select onChange={(e)=> setFormData({...formData, category: e.target.value})}>
+              <TextInput type='text' placeholder='Title' required id='title' className='flex-1' onChange={(e)=> setFormData({...formData, title: e.target.value})} value={formData.title}/>
+              <Select onChange={(e)=> setFormData({...formData, category: e.target.value})} value={formData.category}>
                 <option value="uncategorized">Select a Category</option>
                 <option value="JavaScript">JavaScript</option>
                 <option value="React.js">React.js</option>
@@ -121,7 +146,7 @@ export default function CreatePost() {
             )}
             <ReactQuill theme="snow" placeholder='Write Something...' className='h-72 mb-12' required onChange={(value)=>{setFormData({...formData, content:value});
 
-            }}/>
+            }} value={formData.content}/>
             <Button type='submit' gradientDuoTone='purpleToBlue'>Publish</Button>
             {
               publishError && <Alert color='failure' className='mt-5'>{publishError}</Alert>

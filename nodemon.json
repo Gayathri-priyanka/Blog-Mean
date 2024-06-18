@@ -1,0 +1,5 @@
+{
+    "exec": "babel-node api/index.js",
+    "ext": "js,jsx"
+  }
+  
