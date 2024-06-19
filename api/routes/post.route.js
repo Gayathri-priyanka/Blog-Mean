@@ -1,14 +1,14 @@
 import express from "express";
 import { verifyUser } from "../utils/verifyUser.js";
-import { create, deletePost, getposts } from "../controllers/post.controller.js";
-// import updatepost from "../../client/src/pages/UpdatePost.jsx";
+import { create, deletePost, getposts, updatepost } from "../controllers/post.controller.js";
+
 
 const router= express.Router();
 
 router.post('/create', verifyUser, create)
 router.get('/getposts', getposts);
 router.delete('/deletepost/:postId/:userId', verifyUser, deletePost);
-// router.put('/updatepost/:postId/:userId', verifyUser, updatepost);
+router.put('/updatepost/:postId/:userId', verifyUser, updatepost);
 
 
 export default router;

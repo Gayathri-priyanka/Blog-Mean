@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import {CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 export default function UpdatePost() {
@@ -18,6 +19,7 @@ export default function UpdatePost() {
   const {postId} = useParams();
 
   const navigate= useNavigate();
+  const {currentUser}= useSelector((state)=>state.user);
 
   useEffect(()=>{
     try {
@@ -62,6 +64,7 @@ export default function UpdatePost() {
         (error)=>{
           setImageUploadError('Image upload Failed');
           setImageUploadProgress(null);
+          console.error(error);
         },
         ()=>{
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL)=>{
@@ -69,6 +72,10 @@ export default function UpdatePost() {
             setImageUploadProgress(null);
             setFormData((formData)=>({...formData, image: downloadURL}));
           })
+          .catch((error) => {
+            console.error('Error getting download URL:', error); // Log the error for debugging
+            setPublishError('Failed to update post image'); // Inform user about the issue
+          });
         }
       );
 
@@ -81,16 +88,16 @@ export default function UpdatePost() {
   const handleSubmit= async(e) => {
     e.preventDefault();
     try {
-      const res= await fetch('api/post/create', {
-        method: 'POST',
+      const res= await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+        method: 'PUT',
         headers: {
-          'content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
       const data= await res.json();
       if(!res.ok){
-        setPublishError(data.message)
+        setPublishError(data.message);
         return;
       }
       if(data.success===false){
@@ -103,11 +110,12 @@ export default function UpdatePost() {
       }
     } catch (error) {
       setPublishError('Something went wrong');
+      console.log(error);
     }
   }
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-        <h1 className="text-center text-3xl my-7 font-semibold">Create a Post</h1>
+        <h1 className="text-center text-3xl my-7 font-semibold">Update Post</h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
@@ -147,7 +155,7 @@ export default function UpdatePost() {
             <ReactQuill theme="snow" placeholder='Write Something...' className='h-72 mb-12' required onChange={(value)=>{setFormData({...formData, content:value});
 
             }} value={formData.content}/>
-            <Button type='submit' gradientDuoTone='purpleToBlue'>Publish</Button>
+            <Button type='submit' gradientDuoTone='purpleToBlue'>Update post</Button>
             {
               publishError && <Alert color='failure' className='mt-5'>{publishError}</Alert>
             }
