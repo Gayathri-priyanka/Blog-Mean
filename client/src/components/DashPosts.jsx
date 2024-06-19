@@ -47,7 +47,7 @@ export default function DashPosts() {
       console.log(error.message);
     }
   }
-  
+
   const handleDeletePost=async()=>{
     setShowModal(false);
     try {
@@ -91,7 +91,7 @@ export default function DashPosts() {
 
               <Table.Cell>
                 <Link to={`/post/${post.slug}`}>
-                  <img src={post.Image} alt={post.title} className='w-20 h-10 object-cover bg-gray-500'/>
+                  <img src={post.image} alt={post.title} className='w-20 h-10 object-cover bg-gray-500'/>
                 </Link>
               </Table.Cell>
 
