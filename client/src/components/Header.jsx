@@ -54,9 +54,9 @@ export default function Header() {
     navigate(`/search?${searchQuery}`);
   }
   return (
-    <Navbar className='border-b-2 flex flex-wrap'>
+    <Navbar className='border-b-2 flex flex-wrap bg-slate-200'>
       <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-        <span className='px-2 py-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-teal-400 rounded-lg text-white'>BlogHive</span>
+        <span className='px-2 py-1 bg-gradient-to-r from-purple-500 via-teal-400 to-cyan-500 rounded-lg text-white'>BlogHive</span>
       </Link>
       <form onSubmit={handleSubmit}>
         <TextInput
@@ -68,7 +68,7 @@ export default function Header() {
             onChange={(e)=>setSearchTerm(e.target.value)}
         />
       </form>
-      <Button className='w-12 h-10 lg:hidden' color='gray' pill>
+      <Button className='w-12 h-10 lg:hidden' color='teal' pill>
         <AiOutlineSearch/>
       </Button>
       <div className="flex gap-2 md:order-2">
