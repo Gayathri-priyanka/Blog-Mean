@@ -54,7 +54,7 @@ export default function Header() {
     navigate(`/search?${searchQuery}`);
   }
   return (
-    <Navbar className='border-b-2 flex flex-wrap bg-slate-200'>
+    <Navbar className='border-b-2 flex flex-wrap'>
       <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
         <span className='px-2 py-1 bg-gradient-to-r from-purple-500 via-teal-400 to-cyan-500 rounded-lg text-white'>BlogHive</span>
       </Link>
