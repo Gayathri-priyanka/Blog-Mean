@@ -50,7 +50,7 @@ export default function SignIn() {
         <Link to="/" className='font-bold dark:text-white text-4xl'>
         <span className='px-2 py-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-teal-400 rounded-lg text-white'>BlogHive</span>
         </Link>
-        <p className='text-sm mt-5'>This is a Blogger's page. You can signin with your email and password.</p>
+        <p className='text-sm mt-5'>This is a Blogger's page. You can sign-in with your email and password.</p>
         </div>
         {/* right */}
         <div className="flex-1">
